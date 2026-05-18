@@ -33,41 +33,48 @@ export default function LoginPage() {
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
         />
 
-        {/* Badge da marca */}
+        {/* Badge com logo SVG */}
         <div style={{
           position: 'absolute',
           top: '24px',
           left: '24px',
-          background: 'rgba(0,0,0,0.65)',
-          backdropFilter: 'blur(8px)',
-          borderRadius: '8px',
-          padding: '6px 12px',
+          background: 'rgba(0,0,0,0.55)',
+          backdropFilter: 'blur(10px)',
+          borderRadius: '10px',
+          padding: '8px 10px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}>
-          <span style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: '14px',
-            fontWeight: 600,
-            color: '#FFFFFF',
-            letterSpacing: '1px',
-          }}>
-            bhumi
-          </span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/bhumi-icon.svg"
+            alt="Bhumi"
+            style={{ height: '28px', width: 'auto' }}
+          />
         </div>
 
-        {/* Caption */}
-        <p style={{
+        {/* Efeito de luz cinematográfico na borda direita */}
+        <div style={{
           position: 'absolute',
-          bottom: '16px',
-          left: 0,
+          top: 0,
           right: 0,
-          textAlign: 'center',
-          fontFamily: 'var(--font-sans)',
-          fontSize: '10px',
-          color: 'rgba(255,255,255,0.45)',
-          margin: 0,
-        }}>
-          Imagem gerada com Adobe Firefly
-        </p>
+          width: '80px',
+          height: '100%',
+          background: 'linear-gradient(to right, transparent, rgba(255,235,210,0.07) 60%, rgba(255,235,210,0.18) 85%, rgba(255,235,210,0.28) 100%)',
+          pointerEvents: 'none',
+        }} />
+        <div style={{
+          position: 'absolute',
+          top: '15%',
+          right: '-6px',
+          width: '12px',
+          height: '70%',
+          background: 'rgba(255,230,190,0.22)',
+          filter: 'blur(6px)',
+          borderRadius: '50%',
+          pointerEvents: 'none',
+        }} />
       </div>
 
       {/* ── Painel direito — formulário ──────────────────────────── */}
@@ -77,9 +84,10 @@ export default function LoginPage() {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        padding: '0 80px',
+        alignItems: 'center',
+        padding: '0 48px',
       }}>
-        <div style={{ maxWidth: '400px' }}>
+        <div style={{ width: '100%', maxWidth: '380px' }}>
 
           {/* Botão voltar */}
           <BackButton />
@@ -94,7 +102,7 @@ export default function LoginPage() {
             marginBottom: '32px',
           }}>
             Acesse sua conta<br />
-            <span style={{ fontStyle: 'italic', color: 'rgba(255,255,255,0.55)' }}>
+            <span style={{ fontStyle: 'italic', color: 'rgba(255,255,255,0.5)' }}>
               e explore a marca
             </span>
           </h1>

@@ -14,7 +14,7 @@ export async function middleware(request: NextRequest) {
   if (pathname === '/login') {
     if (user) {
       // Already authenticated — redirect to home
-      return NextResponse.redirect(new URL('/', request.url))
+      return NextResponse.redirect(new URL('/ia', request.url))
     }
     return supabaseResponse
   }

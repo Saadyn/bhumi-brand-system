@@ -101,14 +101,6 @@ export function Sidebar({ navigation, activeSection, activeDoc, role, onClose }:
                 <path d="M4 6.5h5M6.5 4v5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round"/>
               </svg>
               IA da Marca
-              <span style={{
-                marginLeft: 'auto',
-                fontSize: '9px', fontWeight: 500, letterSpacing: '1.5px',
-                textTransform: 'uppercase',
-                color: '#D4784E',
-                background: 'rgba(184,92,56,0.12)',
-                padding: '1px 5px', borderRadius: '4px',
-              }}>Beta</span>
             </div>
           </Link>
         </div>

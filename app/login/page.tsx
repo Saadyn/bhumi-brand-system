@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { LoginForm } from './LoginForm'
+import { BackButton } from './BackButton'
 
 export const metadata: Metadata = {
   title: 'Entrar — Bhumi Brand System',
@@ -81,29 +82,7 @@ export default function LoginPage() {
         <div style={{ maxWidth: '400px' }}>
 
           {/* Botão voltar */}
-          <button
-            onClick={() => {}}
-            style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: '50%',
-              background: '#2A2A2A',
-              border: 'none',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: '24px',
-              transition: 'background 200ms',
-              color: '#FFFFFF',
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = '#3A3A3A' }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = '#2A2A2A' }}
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M10 3L5 8L10 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
+          <BackButton />
 
           {/* Título */}
           <h1 style={{

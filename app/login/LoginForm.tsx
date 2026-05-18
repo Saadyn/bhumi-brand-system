@@ -3,6 +3,7 @@
 import { useActionState, useState } from 'react'
 import { useFormStatus } from 'react-dom'
 import { useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 import { loginWithEmail } from './actions'
 
 const initialState = { error: null as string | null }
@@ -129,7 +130,7 @@ export function LoginForm() {
       <SubmitButton />
 
       <div style={{ textAlign: 'center', marginTop: '4px' }}>
-        <a
+        <Link
           href="/update-password"
           style={{
             fontFamily: 'var(--font-sans)',
@@ -142,7 +143,7 @@ export function LoginForm() {
           onMouseLeave={(e) => { e.currentTarget.style.color = '#5A5A5A' }}
         >
           Esqueci minha senha
-        </a>
+        </Link>
       </div>
     </form>
   )

@@ -46,8 +46,15 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Gradient animation — lado direito ~60% */}
-      <div className="flex-1 gradient-bg hidden md:block" aria-hidden="true" />
+      {/* Imagem de fundo — lado direito ~60% */}
+      <div className="flex-1 hidden md:block relative overflow-hidden" aria-hidden="true">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/login-bg.jpg"
+          alt=""
+          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
+        />
+      </div>
     </div>
   )
 }

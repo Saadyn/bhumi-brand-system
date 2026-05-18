@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { LoginForm } from './LoginForm'
-import { BackButton } from './BackButton'
 
 export const metadata: Metadata = {
   title: 'Entrar — Bhumi Brand System',
@@ -15,14 +14,15 @@ export default function LoginPage() {
       width: '100vw',
       overflow: 'hidden',
       background: '#0A0A0A',
+      position: 'relative',
     }}>
       {/* ── Painel esquerdo — imagem ─────────────────────────────── */}
       <div style={{
         width: '45%',
         flexShrink: 0,
         position: 'relative',
-        overflow: 'hidden',
         borderRadius: '0 20px 20px 0',
+        overflow: 'hidden',
       }}
         className="hidden md:block"
       >
@@ -33,49 +33,56 @@ export default function LoginPage() {
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
         />
 
-        {/* Badge com logo SVG */}
+        {/* Logo sem fundo */}
         <div style={{
           position: 'absolute',
           top: '24px',
           left: '24px',
-          background: 'rgba(0,0,0,0.55)',
-          backdropFilter: 'blur(10px)',
-          borderRadius: '10px',
-          padding: '8px 10px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
         }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/bhumi-icon.svg"
             alt="Bhumi"
-            style={{ height: '28px', width: 'auto' }}
+            style={{
+              height: '32px',
+              width: 'auto',
+              filter: 'drop-shadow(0 1px 6px rgba(0,0,0,0.5))',
+            }}
           />
         </div>
-
-        {/* Efeito de luz cinematográfico na borda direita */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          width: '80px',
-          height: '100%',
-          background: 'linear-gradient(to right, transparent, rgba(255,235,210,0.07) 60%, rgba(255,235,210,0.18) 85%, rgba(255,235,210,0.28) 100%)',
-          pointerEvents: 'none',
-        }} />
-        <div style={{
-          position: 'absolute',
-          top: '15%',
-          right: '-6px',
-          width: '12px',
-          height: '70%',
-          background: 'rgba(255,230,190,0.22)',
-          filter: 'blur(6px)',
-          borderRadius: '50%',
-          pointerEvents: 'none',
-        }} />
       </div>
+
+      {/* ── Luz cinematográfica — sangra para fora do retângulo ─── */}
+      <div
+        className="hidden md:block"
+        style={{
+          position: 'absolute',
+          left: 'calc(45% - 60px)',
+          top: '0',
+          width: '120px',
+          height: '100%',
+          background: 'radial-gradient(ellipse 60px 55% at 50% 42%, rgba(195,110,55,0.32) 0%, rgba(180,90,40,0.14) 45%, transparent 100%)',
+          pointerEvents: 'none',
+          zIndex: 10,
+          filter: 'blur(4px)',
+        }}
+      />
+      {/* Fio de luz — linha brilhante na costura */}
+      <div
+        className="hidden md:block"
+        style={{
+          position: 'absolute',
+          left: 'calc(45% - 1px)',
+          top: '8%',
+          width: '2px',
+          height: '84%',
+          background: 'linear-gradient(to bottom, transparent, rgba(220,140,70,0.55) 20%, rgba(240,170,90,0.75) 45%, rgba(220,140,70,0.55) 75%, transparent)',
+          pointerEvents: 'none',
+          zIndex: 11,
+          filter: 'blur(2px)',
+          borderRadius: '99px',
+        }}
+      />
 
       {/* ── Painel direito — formulário ──────────────────────────── */}
       <div style={{
@@ -86,11 +93,10 @@ export default function LoginPage() {
         justifyContent: 'center',
         alignItems: 'center',
         padding: '0 48px',
+        position: 'relative',
+        zIndex: 1,
       }}>
         <div style={{ width: '100%', maxWidth: '380px' }}>
-
-          {/* Botão voltar */}
-          <BackButton />
 
           {/* Título */}
           <h1 style={{

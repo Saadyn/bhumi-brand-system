@@ -8,52 +8,135 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <div className="flex h-screen overflow-hidden">
-      {/* Card de login — lado esquerdo ~40% */}
-      <div className="w-full max-w-md flex-shrink-0 flex items-center justify-center p-8 bg-surface">
-        <div
-          className="w-full max-w-sm bg-raiz rounded-2xl p-12"
-          style={{ boxShadow: '0 8px 32px rgba(43,27,20,0.12)' }}
-        >
-          {/* Logo */}
-          <div className="mb-8 text-center">
-            <span className="font-vemina text-3xl text-terra tracking-wide">BHUMI</span>
-            <p className="text-xs text-escuro/40 font-helvetica mt-1 tracking-widest uppercase">
-              Athleisure & Wellness
-            </p>
-          </div>
-
-          {/* Título */}
-          <div className="mb-8">
-            <h1 className="font-vemina text-xl text-solo-noturno mb-1">
-              Acesse o Brand System
-            </h1>
-            <p className="text-sm text-escuro/50 font-helvetica">
-              Entre com suas credenciais
-            </p>
-          </div>
-
-          {/* Formulário */}
-          <Suspense fallback={null}>
-            <LoginForm />
-          </Suspense>
-
-          <p className="mt-4 text-center">
-            <a href="#" className="text-sm text-escuro/40 hover:text-terra font-helvetica transition-colors">
-              Esqueci minha senha
-            </a>
-          </p>
-        </div>
-      </div>
-
-      {/* Imagem de fundo — lado direito ~60% */}
-      <div className="flex-1 hidden md:block relative overflow-hidden" aria-hidden="true">
+    <div style={{
+      display: 'flex',
+      height: '100vh',
+      width: '100vw',
+      overflow: 'hidden',
+      background: '#0A0A0A',
+    }}>
+      {/* ── Painel esquerdo — imagem ─────────────────────────────── */}
+      <div style={{
+        width: '45%',
+        flexShrink: 0,
+        position: 'relative',
+        overflow: 'hidden',
+        borderRadius: '0 20px 20px 0',
+      }}
+        className="hidden md:block"
+      >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/images/login-bg.jpg"
           alt=""
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
         />
+
+        {/* Badge da marca */}
+        <div style={{
+          position: 'absolute',
+          top: '24px',
+          left: '24px',
+          background: 'rgba(0,0,0,0.65)',
+          backdropFilter: 'blur(8px)',
+          borderRadius: '8px',
+          padding: '6px 12px',
+        }}>
+          <span style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '14px',
+            fontWeight: 600,
+            color: '#FFFFFF',
+            letterSpacing: '1px',
+          }}>
+            bhumi
+          </span>
+        </div>
+
+        {/* Caption */}
+        <p style={{
+          position: 'absolute',
+          bottom: '16px',
+          left: 0,
+          right: 0,
+          textAlign: 'center',
+          fontFamily: 'var(--font-sans)',
+          fontSize: '10px',
+          color: 'rgba(255,255,255,0.45)',
+          margin: 0,
+        }}>
+          Imagem gerada com Adobe Firefly
+        </p>
+      </div>
+
+      {/* ── Painel direito — formulário ──────────────────────────── */}
+      <div style={{
+        flex: 1,
+        background: '#0A0A0A',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        padding: '0 80px',
+      }}>
+        <div style={{ maxWidth: '400px' }}>
+
+          {/* Botão voltar */}
+          <button
+            onClick={() => {}}
+            style={{
+              width: '40px',
+              height: '40px',
+              borderRadius: '50%',
+              background: '#2A2A2A',
+              border: 'none',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: '24px',
+              transition: 'background 200ms',
+              color: '#FFFFFF',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = '#3A3A3A' }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = '#2A2A2A' }}
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M10 3L5 8L10 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+
+          {/* Título */}
+          <h1 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '38px',
+            fontWeight: 400,
+            lineHeight: 1.15,
+            color: '#FFFFFF',
+            marginBottom: '32px',
+          }}>
+            Acesse sua conta<br />
+            <span style={{ fontStyle: 'italic', color: 'rgba(255,255,255,0.55)' }}>
+              e explore a marca
+            </span>
+          </h1>
+
+          {/* Formulário */}
+          <Suspense fallback={null}>
+            <LoginForm />
+          </Suspense>
+
+          {/* Termos */}
+          <p style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: '11px',
+            color: '#5A5A5A',
+            marginTop: '20px',
+            lineHeight: 1.6,
+          }}>
+            Ao entrar, você concorda com os termos de uso<br />
+            e a política de privacidade da Bhumi.
+          </p>
+        </div>
       </div>
     </div>
   )

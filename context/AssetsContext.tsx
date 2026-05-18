@@ -7,9 +7,10 @@ const AssetsContext = createContext<AssetsContextValue | null>(null)
 
 export function AssetsProvider({ children }: { children: React.ReactNode }) {
   const [searchQuery, setSearchQuery] = useState('')
+  const [currentFolderId, setCurrentFolderId] = useState<string | null>(null)
 
   return (
-    <AssetsContext.Provider value={{ searchQuery, setSearchQuery }}>
+    <AssetsContext.Provider value={{ searchQuery, setSearchQuery, currentFolderId, setCurrentFolderId }}>
       {children}
     </AssetsContext.Provider>
   )

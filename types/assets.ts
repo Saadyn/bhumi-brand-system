@@ -17,19 +17,30 @@ export interface AssetCategoryConfig {
   accent: string
 }
 
+export interface AssetFolder {
+  id: string
+  name: string
+  category: AssetCategory
+  createdAt: string
+  assetCount: number
+}
+
 export interface Asset {
   id: string
   name: string
   category: AssetCategory
   mimeType: string
   size: number
-  url: string          // URL assinada para download (gerada pelo servidor)
-  storagePath: string  // caminho no bucket: {category}/{uuid}-{filename}
-  uploadedBy?: string  // uuid do usuário que fez upload
+  url: string
+  storagePath: string
+  uploadedBy?: string
   uploadedAt: string
+  folderId: string | null
 }
 
 export interface AssetsContextValue {
   searchQuery: string
   setSearchQuery: (q: string) => void
+  currentFolderId: string | null
+  setCurrentFolderId: (id: string | null) => void
 }

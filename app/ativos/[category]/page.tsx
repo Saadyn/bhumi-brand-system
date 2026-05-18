@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { getCategoryConfig } from '@/lib/assets-config'
-import { getAssetsByCategory } from '@/app/ativos/actions'
+import { getAssetsByCategory, getFoldersByCategory } from '@/app/ativos/actions'
 import { AssetsBanner } from '@/components/assets/AssetsBanner'
 import { AssetsToolbar } from '@/components/assets/AssetsToolbar'
 import { AssetsGrid } from '@/components/assets/AssetsGrid'
@@ -15,8 +15,10 @@ export default async function CategoryPage({ params }: PageProps) {
   const config = getCategoryConfig(category)
   if (!config) notFound()
 
-  // Buscar assets reais do Supabase
-  const assets = await getAssetsByCategory(config.slug as AssetCategory)
+  const [assets, folders] = await Promise.all([
+    getAssetsByCategory(config.slug as AssetCategory),
+    getFoldersByCategory(config.slug as AssetCategory),
+  ])
 
   return (
     <div>
@@ -30,8 +32,9 @@ export default async function CategoryPage({ params }: PageProps) {
         category={config.slug as AssetCategory}
         acceptedTypes={config.acceptedTypes}
         acceptedExtensions={config.acceptedExtensions}
+        folders={folders}
       />
-      <AssetsGrid assets={assets} category={config.slug as AssetCategory} />
+      <AssetsGrid assets={assets} folders={folders} category={config.slug as AssetCategory} />
     </div>
   )
 }

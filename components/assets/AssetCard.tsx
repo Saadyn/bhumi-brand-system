@@ -3,7 +3,8 @@
 import { useState, useTransition } from 'react'
 import { useUser } from '@/context/UserContext'
 import { deleteAsset } from '@/app/ativos/actions'
-import type { Asset, AssetCategory } from '@/types/assets'
+import { MoveToFolderModal } from '@/components/assets/MoveToFolderModal'
+import type { Asset, AssetCategory, AssetFolder } from '@/types/assets'
 
 function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`
@@ -31,12 +32,15 @@ function getFileIcon(mimeType: string): string {
 interface AssetCardProps {
   asset: Asset
   category: AssetCategory
+  folders: AssetFolder[]
 }
 
-export function AssetCard({ asset, category }: AssetCardProps) {
+export function AssetCard({ asset, category, folders }: AssetCardProps) {
   const user = useUser()
-  const canDelete = ['admin', 'staff'].includes(user.profile.role)
+  const canManage = ['admin', 'staff'].includes(user.profile.role)
+  const canDelete = canManage
   const [isHovered, setIsHovered] = useState(false)
+  const [isMoveOpen, setIsMoveOpen] = useState(false)
   const [isPending, startTransition] = useTransition()
   const isImage = asset.mimeType.startsWith('image/')
 
@@ -50,6 +54,7 @@ export function AssetCard({ asset, category }: AssetCardProps) {
   }
 
   return (
+    <>
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -158,18 +163,43 @@ export function AssetCard({ asset, category }: AssetCardProps) {
                   textDecoration: 'none',
                   transition: 'background 150ms',
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'var(--color-hairline)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'transparent'
-                }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--color-hairline)' }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent' }}
               >
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                   <path d="M6 1V8M3 5.5L6 8.5L9 5.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
                   <path d="M1 10H11" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
                 </svg>
               </a>
+              {canManage && (
+                <button
+                  onClick={() => setIsMoveOpen(true)}
+                  title="Mover para pasta"
+                  style={{
+                    width: '28px',
+                    height: '28px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: '6px',
+                    border: '1px solid var(--color-hairline)',
+                    background: 'transparent',
+                    color: 'var(--color-muted)',
+                    cursor: 'pointer',
+                    transition: 'background 150ms',
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--color-hairline)' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent' }}
+                >
+                  <svg width="12" height="11" viewBox="0 0 12 11" fill="none">
+                    <path
+                      d="M1 2.5C1 1.95 1.45 1.5 2 1.5H4.8L6 3H10C10.55 3 11 3.45 11 4V9.5C11 10.05 10.55 10.5 10 10.5H2C1.45 10.5 1 10.05 1 9.5V2.5Z"
+                      stroke="currentColor"
+                      strokeWidth="1.3"
+                    />
+                  </svg>
+                </button>
+              )}
               {canDelete && (
                 <button
                   onClick={handleDelete}
@@ -191,9 +221,7 @@ export function AssetCard({ asset, category }: AssetCardProps) {
                   onMouseEnter={(e) => {
                     if (!isPending) e.currentTarget.style.background = 'rgba(139,44,44,0.1)'
                   }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'transparent'
-                  }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent' }}
                 >
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                     <path d="M2 3H10M4.5 3V2H7.5V3M5 5.5V9M7 5.5V9M3 3L3.5 10H8.5L9 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
@@ -215,5 +243,14 @@ export function AssetCard({ asset, category }: AssetCardProps) {
         </span>
       </div>
     </div>
+
+    {isMoveOpen && (
+      <MoveToFolderModal
+        asset={asset}
+        folders={folders}
+        onClose={() => setIsMoveOpen(false)}
+      />
+    )}
+    </>
   )
 }

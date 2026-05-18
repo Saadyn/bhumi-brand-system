@@ -1,8 +1,9 @@
 'use client'
 
 import { useRef, useState, useTransition } from 'react'
+import { useAssets } from '@/context/AssetsContext'
 import { uploadAsset } from '@/app/ativos/actions'
-import type { AssetCategory } from '@/types/assets'
+import type { AssetCategory, AssetFolder } from '@/types/assets'
 
 function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`
@@ -14,12 +15,15 @@ interface UploadModalProps {
   category: AssetCategory
   acceptedTypes: string[]
   acceptedExtensions: string[]
+  folders: AssetFolder[]
   onClose: () => void
 }
 
-export function UploadModal({ category, acceptedTypes, acceptedExtensions, onClose }: UploadModalProps) {
+export function UploadModal({ category, acceptedTypes, acceptedExtensions, folders, onClose }: UploadModalProps) {
+  const { currentFolderId } = useAssets()
   const inputRef = useRef<HTMLInputElement>(null)
   const [pendingFiles, setPendingFiles] = useState<File[]>([])
+  const [selectedFolderId, setSelectedFolderId] = useState<string>(currentFolderId ?? '')
   const [isDragOver, setIsDragOver] = useState(false)
   const [cancelHovered, setCancelHovered] = useState(false)
   const [confirmHovered, setConfirmHovered] = useState(false)
@@ -56,6 +60,7 @@ export function UploadModal({ category, acceptedTypes, acceptedExtensions, onClo
         const formData = new FormData()
         formData.set('file', file)
         formData.set('category', category)
+        if (selectedFolderId) formData.set('folderId', selectedFolderId)
 
         const result = await uploadAsset(formData)
         if (result.error) {
@@ -243,6 +248,50 @@ export function UploadModal({ category, acceptedTypes, acceptedExtensions, onClo
             onChange={(e) => handleFiles(e.target.files)}
             style={{ display: 'none' }}
           />
+
+          {/* Seletor de pasta */}
+          {folders.length > 0 && (
+            <div style={{ marginTop: '16px' }}>
+              <label
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '12px',
+                  fontWeight: 500,
+                  color: 'var(--color-ink)',
+                  display: 'block',
+                  marginBottom: '6px',
+                }}
+              >
+                Pasta de destino
+              </label>
+              <select
+                value={selectedFolderId}
+                onChange={(e) => setSelectedFolderId(e.target.value)}
+                disabled={isUploading}
+                style={{
+                  width: '100%',
+                  height: '40px',
+                  background: 'var(--color-canvas)',
+                  border: '1px solid var(--color-hairline)',
+                  borderRadius: '8px',
+                  padding: '0 12px',
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '13px',
+                  color: 'var(--color-ink)',
+                  outline: 'none',
+                  cursor: 'pointer',
+                  appearance: 'auto',
+                }}
+              >
+                <option value="">Sem pasta (raiz)</option>
+                {folders.map((f) => (
+                  <option key={f.id} value={f.id}>
+                    {f.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
 
           {/* Pending files list */}
           {pendingFiles.length > 0 && (

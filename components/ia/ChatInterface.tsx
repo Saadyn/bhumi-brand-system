@@ -3,6 +3,8 @@
 import { useChat } from '@ai-sdk/react'
 import { DefaultChatTransport, isTextUIPart } from 'ai'
 import { useState, useRef, useEffect } from 'react'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { useUser } from '@/context/UserContext'
 
 const QUICK_PROMPTS = [
@@ -166,10 +168,55 @@ export function ChatInterface() {
                     fontSize: '14px',
                     fontWeight: 300,
                     lineHeight: 1.7,
-                    color: isUser ? '#2B1B14' : 'rgba(43,27,20,0.75)',
-                    whiteSpace: 'pre-wrap',
+                    color: isUser ? '#2B1B14' : 'rgba(43,27,20,0.8)',
                   }}>
-                    {text}
+                    {isUser ? (
+                      <span style={{ whiteSpace: 'pre-wrap' }}>{text}</span>
+                    ) : (
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          p: ({ children }) => (
+                            <p style={{ margin: '0 0 12px', lineHeight: 1.75 }}>{children}</p>
+                          ),
+                          strong: ({ children }) => (
+                            <strong style={{ fontWeight: 600, color: '#2B1B14' }}>{children}</strong>
+                          ),
+                          em: ({ children }) => (
+                            <em style={{ fontStyle: 'italic', color: '#B85C38' }}>{children}</em>
+                          ),
+                          ul: ({ children }) => (
+                            <ul style={{ margin: '0 0 12px', paddingLeft: '20px', listStyleType: 'disc' }}>{children}</ul>
+                          ),
+                          ol: ({ children }) => (
+                            <ol style={{ margin: '0 0 12px', paddingLeft: '20px' }}>{children}</ol>
+                          ),
+                          li: ({ children }) => (
+                            <li style={{ margin: '4px 0', lineHeight: 1.65 }}>{children}</li>
+                          ),
+                          h1: ({ children }) => (
+                            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '22px', fontWeight: 400, color: '#2B1B14', margin: '20px 0 8px' }}>{children}</h1>
+                          ),
+                          h2: ({ children }) => (
+                            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 400, color: '#2B1B14', margin: '16px 0 6px' }}>{children}</h2>
+                          ),
+                          h3: ({ children }) => (
+                            <h3 style={{ fontFamily: 'var(--font-sans)', fontSize: '14px', fontWeight: 600, color: '#591B07', margin: '12px 0 4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{children}</h3>
+                          ),
+                          code: ({ children }) => (
+                            <code style={{ fontFamily: 'monospace', fontSize: '12px', background: 'rgba(89,27,7,0.07)', padding: '2px 6px', borderRadius: '4px', color: '#591B07' }}>{children}</code>
+                          ),
+                          blockquote: ({ children }) => (
+                            <blockquote style={{ borderLeft: '3px solid #D55B28', paddingLeft: '14px', margin: '12px 0', opacity: 0.8 }}>{children}</blockquote>
+                          ),
+                          hr: () => (
+                            <hr style={{ border: 'none', borderTop: '1px solid rgba(43,27,20,0.1)', margin: '16px 0' }} />
+                          ),
+                        }}
+                      >
+                        {text}
+                      </ReactMarkdown>
+                    )}
                   </div>
                 </div>
               )

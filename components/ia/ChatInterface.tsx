@@ -3,9 +3,7 @@
 import { useChat } from '@ai-sdk/react'
 import { DefaultChatTransport, isTextUIPart } from 'ai'
 import { useState, useRef, useEffect } from 'react'
-import Link from 'next/link'
 import { useUser } from '@/context/UserContext'
-import { NAVIGATION } from '@/lib/navigation'
 
 const QUICK_PROMPTS = [
   'Quais são as cores primárias da Bhumi?',
@@ -14,16 +12,6 @@ const QUICK_PROMPTS = [
   'Como descrever a Bhumi em uma frase?',
   'Quais são os arquétipos da marca?',
 ]
-
-const SECTION_ICONS: Record<string, string> = {
-  investigacao: '◎',
-  estrategia: '◈',
-  publico: '◉',
-  nucleo: '✦',
-  'identidade-verbal': '❋',
-  'identidade-visual': '▣',
-  lancamento: '◆',
-}
 
 export function ChatInterface() {
   const { profile } = useUser()
@@ -139,72 +127,6 @@ export function ChatInterface() {
               ))}
             </div>
 
-            {/* Section cards */}
-            <p style={{
-              fontFamily: 'var(--font-sans)',
-              fontSize: '10px',
-              fontWeight: 500,
-              letterSpacing: '2px',
-              textTransform: 'uppercase',
-              color: 'rgba(43,27,20,0.3)',
-              marginBottom: '16px',
-            }}>
-              Explorar diretrizes
-            </p>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
-              gap: '10px',
-            }}>
-              {NAVIGATION.map((section) => (
-                <Link
-                  key={section.slug}
-                  href={`/${section.slug}/${section.items[0]?.slug}`}
-                  style={{ textDecoration: 'none' }}
-                >
-                  <div
-                    style={{
-                      padding: '16px',
-                      borderRadius: '10px',
-                      border: '1px solid rgba(43,27,20,0.1)',
-                      background: 'rgba(43,27,20,0.02)',
-                      transition: 'border-color 150ms, background 150ms',
-                      cursor: 'pointer',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.borderColor = 'rgba(212,120,78,0.35)'
-                      e.currentTarget.style.background = 'rgba(212,120,78,0.05)'
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.borderColor = 'rgba(43,27,20,0.1)'
-                      e.currentTarget.style.background = 'rgba(43,27,20,0.02)'
-                    }}
-                  >
-                    <span style={{ display: 'block', fontSize: '18px', marginBottom: '10px', color: '#D4784E' }}>
-                      {SECTION_ICONS[section.slug] ?? '◇'}
-                    </span>
-                    <span style={{
-                      display: 'block',
-                      fontFamily: 'var(--font-sans)',
-                      fontSize: '12px',
-                      fontWeight: 500,
-                      color: '#2B1B14',
-                      marginBottom: '4px',
-                    }}>
-                      {section.label}
-                    </span>
-                    <span style={{
-                      display: 'block',
-                      fontFamily: 'var(--font-sans)',
-                      fontSize: '11px',
-                      color: 'rgba(43,27,20,0.35)',
-                    }}>
-                      {section.items.length} {section.items.length === 1 ? 'doc' : 'docs'}
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
           </div>
         ) : (
           /* ── Message thread ───────────────────────────────────────────────── */

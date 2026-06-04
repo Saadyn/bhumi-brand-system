@@ -26,7 +26,14 @@ export async function updateSession(request: NextRequest) {
   )
 
   // IMPORTANTE: getUser() deve ser chamado para refresh do token — não getSession()
-  const { data: { user } } = await supabase.auth.getUser()
+  // Timeout de 3s para evitar MIDDLEWARE_INVOCATION_TIMEOUT no Vercel
+  const timeout = new Promise<{ data: { user: null } }>((resolve) =>
+    setTimeout(() => resolve({ data: { user: null } }), 3000)
+  )
+  const { data: { user } } = await Promise.race([
+    supabase.auth.getUser(),
+    timeout,
+  ])
 
   return { supabase, supabaseResponse, user }
 }
